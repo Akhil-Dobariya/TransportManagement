@@ -1,0 +1,56 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model IEnumerable<TransportOrderModel>
+@Html.PartialAsync("SelectDate").Result
+@{
+}
+<style>
+    .table {
+        overflow-x: scroll;
+        position: absolute;
+        top: 180px;
+        bottom: 0;
+    }
+</style>
+<br />
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div>
+        <table class="table table-responsive table-hover">
+            <thead style="position:sticky; top:0px;" class="thead-dark">
+                <tr>
+                    <th scope="col">InvoiceID</th>
+                    <th scope="col">InvoiceDate</th>
+                    <th scope="col">Sender</th>
+                    <th scope="col">Receiver</th>
+                    <th scope="col">ItemInfo</th>
+                    <th scope="col">TotalPrice</th>
+                    <th scope="col">PaidPrice</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var invoice in Model)
+                {
+                    <tr>
+                        <th scope="row">@invoice.SystemInvoiceId</th>
+                        <td>@invoice.InvoiceDate</td>
+                        <td>@invoice.Sender</td>
+                        <td>@invoice.Receiver</td>
+                        <td>@invoice.ItemInfo</td>
+                        <td>@invoice.TotalPrice</td>
+                        <td>@invoice.PaidPrice</td>
+                        
+                        <td><a href="https://@Context.Request.Host/TransportOrder/ViewInvoice?invoiceID=@invoice.SystemInvoiceId">View</a> 
+                        <a href="https://@Context.Request.Host/TransportOrder/EditInvoice?invoiceID=@invoice.SystemInvoiceId">Edit</a> 
+                        <a href="">Delete</a></td>
+             </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    @Context.Request.Host
+}
+

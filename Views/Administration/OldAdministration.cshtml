@@ -1,0 +1,33 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div>Select Date:</div>
+@Html.PartialAsync("SelectDate").Result
+
+
+
+@*@section Scripts{
+    <script type="text/javascript">
+        $("#submit").click(function(){
+            $.ajax({
+                type: "POST",
+                url: 'GetOrderInvoices',
+                data: {fromDate:0,toDate:0},
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function (data) {
+                   console.log(data);
+invoiceData=data;
+
+                },
+                error: function () {
+                    alert("Error while inserting data");
+                }
+            });
+        });
+    </script>
+}*@
+@*@Html.PartialAsync("InvoicesTableView",invoiceData).Result*@
+

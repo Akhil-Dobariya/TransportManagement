@@ -64,8 +64,9 @@
             <label for="ReceivedBy" class="col-form-label" style="width:130px;display:inline;margin-top:8px;">Received By</label>
             <input type="text" class="form-control" id="ReceivedBy" style="width:200px;display:inline;margin-left:34px;margin-top:8px;" name="ReceivedBy" >
 
-            <div style="display:inline;text-align:right;width:530px;position:absolute;margin-top:15px;" name="InvoiceGeneratedByDisplay">ToUpdateWithLoggedInUser</div>
-            <input type="hidden" name="InvoiceGeneratedBy" value="TOBeUpdated" />
+            <div style="display:inline;text-align:right;width:530px;position:absolute;margin-top:15px;" name="InvoiceGeneratedByDisplay">@this.User.Claims.Where(t=>t.Type == "name").Select(t=>t.Value).FirstOrDefault()</div>
+            <input type="hidden" name="InvoiceGeneratedBy" value="@this.User.Claims.Where(t=>t.Type == "name").Select(t=>t.Value).FirstOrDefault()" />
+            <input type="hidden" name="InvoiceGeneratedByEmail" value="@this.User.Claims.Where(t=>t.Type == "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/upn").Select(t=>t.Value).FirstOrDefault()" />
         </div>
         <div class="row" style="margin-top:10px">
             <button type="submit" class="btn btn-secondary" id="submit" style="width:872px;">Create</button>

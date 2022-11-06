@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using TransportManagement.Configuration;
 using TransportManagement.Helper;
@@ -23,6 +24,7 @@ namespace TransportManagement.Controllers
 
         public IActionResult Index()
         {
+            ClaimsPrincipal claimsPrincipal = this.User;
             return View("CreateInvoice");
         }
 
@@ -44,6 +46,7 @@ namespace TransportManagement.Controllers
             data.Add("ReceiverMobileNo", model.ReceiverMobileNo);
             data.Add("InvoiceGeneratedBy", model.InvoiceGeneratedBy);
             data.Add("ETag", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            data.Add("InvoiceGeneratedByEmail", model.InvoiceGeneratedByEmail);
 
             serviceContext.CreateInvoice(data);
 
@@ -82,6 +85,7 @@ namespace TransportManagement.Controllers
             data.Add("SenderMobileNo", model.SenderMobileNo);
             data.Add("ReceiverMobileNo", model.ReceiverMobileNo);
             data.Add("ETag", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
+            data.Add("LastUpdatedBy", this.User.Claims.Where(t=>t.Type=="name").Select(t=>t.Value).FirstOrDefault());
 
             serviceContext.UpdateInvoiceById("SystemInvoiceId",model.SystemInvoiceId,data);
 

@@ -54,7 +54,7 @@ namespace TransportManagement.Helper
 
         public List<TransportOrderModel> GetInvoicesByDate(string fromDate, string toDate)
         {
-            string queryString = "select * from TransportOrderInformation where InvoiceDate >= '" + fromDate + "' and InvoiceDate <= '"+toDate+"'";
+            string queryString = "select * from TransportOrderInformation where InvoiceDate >= '" + fromDate + "' and InvoiceDate <= '"+toDate+"' and IsActive=1";
 
             List<TransportOrderModel> invoices = dbHelper.GetData<TransportOrderModel>(queryString);
 
@@ -64,7 +64,7 @@ namespace TransportManagement.Helper
         public TransportOrderModel GetInvoice(string key, string value)
         {
             
-                string queryString = $"select * from TransportOrderInformation where {key} = '{value}'" ;
+                string queryString = $"select * from TransportOrderInformation where {key} = '{value}' and IsActive=1" ;
                 //string queryString = "select * from TransportOrderInformation " ;
 
                 TransportOrderModel transportOrderModel = dbHelper.GetData<TransportOrderModel>(queryString)?.FirstOrDefault();

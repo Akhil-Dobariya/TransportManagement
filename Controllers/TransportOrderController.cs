@@ -24,8 +24,17 @@ namespace TransportManagement.Controllers
 
         public IActionResult Index()
         {
-            ClaimsPrincipal claimsPrincipal = this.User;
             return View("CreateInvoice");
+        }
+
+        public RedirectToActionResult DeleteInvoice(string invoiceID)
+        {
+            Dictionary<string, string> data = new Dictionary<string, string>();
+            data.Add("IsActive", "0");
+
+            serviceContext.UpdateInvoiceById("SystemInvoiceId", invoiceID, data);
+
+            return RedirectToAction(actionName: "ViewAdministration", controllerName: "Administration");
         }
 
         public IActionResult CreateInvoice(TransportOrderModel model)

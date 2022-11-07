@@ -89,7 +89,7 @@ namespace TransportManagement.Helper
                 return transportOrderModel;
         }
 
-        public void UpdateInvoiceById(string key, string value, Dictionary<string,string> data)
+        public void UpdateInvoiceByCondition(string key, string value, Dictionary<string,string> data)
         {
             string updateQuery = "Update TransportOrderInformation set ";
 
@@ -104,6 +104,62 @@ namespace TransportManagement.Helper
 
             dbHelper.UpdateData(updateQuery);
 
+        }
+
+        public void UpdateUserByCondition(string key, string value, Dictionary<string, string> data)
+        {
+            string updateQuery = "Update Users set ";
+
+            foreach (KeyValuePair<string, string> item in data)
+            {
+                updateQuery += $"{item.Key}='{item.Value}',";
+            }
+
+            updateQuery = updateQuery.Substring(0, updateQuery.Length - 1);
+
+            updateQuery += $"where {key}='{value}'";
+
+            dbHelper.UpdateData(updateQuery);
+
+        }
+
+        public void CreateUser(Dictionary<string, string> data)
+        {
+            string queryString = "Insert into Users(";
+
+            foreach (var item in data.Keys)
+            {
+                queryString += $"{item},";
+            }
+
+            queryString = queryString.Substring(0, queryString.Length - 1);
+
+            queryString += ") values(";
+
+            foreach (var item in data.Values)
+            {
+                queryString += $"'{item}',";
+            }
+
+            queryString = queryString.Substring(0, queryString.Length - 1);
+
+            queryString += ")";
+
+            dbHelper.UpdateData(queryString);
+        }
+
+        public List<UserModel> GetUsers()
+        {
+            string query = "select * from Users where IsActive=1";
+
+            return dbHelper.GetData<UserModel>(query);
+        }
+
+        public UserModel GetUserByCondition(string key, string value)
+        {
+            string query = $"select * from Users where {key}='{value}' and IsActive=1";
+
+            return dbHelper.GetData<UserModel>(query).FirstOrDefault();
         }
     }
 }

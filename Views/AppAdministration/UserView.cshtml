@@ -1,0 +1,84 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@model UserModel
+
+@{
+}
+
+<script>
+    var admin = $("#IsAdmin");
+    var othersData = $("#CanSeeOthersData");
+    var editUser = $("#CanEditUsers");
+
+    //var admin = document.getElementById("IsAdmin");
+    //var othersData = document.getElementById("CanSeeOthersData");
+    //var editUser = document.getElementById("CanEditUsers");
+
+    if ('@Model.Permissions.Contains("Admin")' == 'True') {
+        admin.prop("checked","checked");
+    }
+
+    if ('@Model.Permissions.Contains("CanSeeOthersData")' == 'True') {
+        othersData.prop("checked", "checked");
+    }
+
+    if ('@Model.Permissions.Contains("CanEditUsers")' == 'True') {
+        editUser.prop("checked", "checked");
+    }
+</script>
+
+<form action="CreateUser" method="post">
+
+    <input type="hidden" id="Permissions" name="Permissions" />
+    <input type="hidden" id="CreatedBy" name="CreatedBy" value='@this.User.Claims.Where(t=>t.Type == "preferred_username").Select(t=>t.Value).FirstOrDefault()' />
+
+    <div class="form-group row">
+        <label for="FirstName" class="col-sm-2 col-form-label">First Name</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="FirstName" placeholder="FirstName" name="FirstName" value="@Model.FirstName">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="LastName" class="col-sm-2 col-form-label">Last Name</label>
+        <div class="col-sm-8">
+            <input type="text" class="form-control" id="LastName" placeholder="LastName" name="LastName" value="@Model.LastName">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <label for="Email" class="col-sm-2 col-form-label">Email</label>
+        <div class="col-sm-8">
+            <input type="email" class="form-control" id="Emaid" placeholder="Email" name="Email" value="@Model.Email">
+        </div>
+    </div>
+
+    <div class="form-group row">
+        <div class="col-sm-2">Permissions</div>
+        <div class="col-sm-2">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="IsAdmin" value="Admin" name="IsAdmin" >
+                <label class="form-check-label" for="IsAdmin">
+                    Is Admin ?
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="CanSeeOthersData" value="CanSeeOthersData" name="CanSeeOthersData" >
+                <label class="form-check-label" for="CanSeeOthersData">
+                    Can see other's data ?
+                </label>
+            </div>
+        </div>
+        <div class="col-sm-3">
+            <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="CanEditUsers" value="CanEditUsers" name="CanEditUsers" >
+                <label class="form-check-label" for="CanEditUsers">
+                    Can edit users ?
+                </label>
+            </div>
+        </div>
+    </div>
+</form>

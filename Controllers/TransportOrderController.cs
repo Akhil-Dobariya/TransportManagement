@@ -32,7 +32,7 @@ namespace TransportManagement.Controllers
             Dictionary<string, string> data = new Dictionary<string, string>();
             data.Add("IsActive", "0");
 
-            serviceContext.UpdateInvoiceById("SystemInvoiceId", invoiceID, data);
+            serviceContext.UpdateInvoiceByCondition("SystemInvoiceId", invoiceID, data);
 
             return RedirectToAction(actionName: "ViewAdministration", controllerName: "Administration");
         }
@@ -56,6 +56,7 @@ namespace TransportManagement.Controllers
             data.Add("InvoiceGeneratedBy", model.InvoiceGeneratedBy);
             data.Add("ETag", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             data.Add("InvoiceGeneratedByEmail", model.InvoiceGeneratedByEmail);
+            data.Add("IsActive", "1");
 
             serviceContext.CreateInvoice(data);
 
@@ -96,7 +97,7 @@ namespace TransportManagement.Controllers
             data.Add("ETag", DateTime.UtcNow.ToString("yyyy-MM-dd HH:mm:ss.fff"));
             data.Add("LastUpdatedBy", this.User.Claims.Where(t=>t.Type=="name").Select(t=>t.Value).FirstOrDefault());
 
-            serviceContext.UpdateInvoiceById("SystemInvoiceId",model.SystemInvoiceId,data);
+            serviceContext.UpdateInvoiceByCondition("SystemInvoiceId",model.SystemInvoiceId,data);
 
             TransportOrderModel invoiceModel = serviceContext.GetInvoice("SystemInvoiceId", model.SystemInvoiceId);
 

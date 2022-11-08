@@ -26,7 +26,7 @@ namespace TransportManagement.Controllers
             return View();
         }
 
-        public ActionResult CreateUser(UserModel model)
+        public RedirectToActionResult CreateUser(UserModel model)
         {
             Dictionary<string, string> data = new Dictionary<string, string>();
             data.Add("FirstName", model.FirstName);
@@ -40,8 +40,7 @@ namespace TransportManagement.Controllers
 
             serviceContext.CreateUser(data);
 
-            UserModel user = serviceContext.GetUserByCondition("Email", model.Email);
-            return View("UserView", user);
+            return RedirectToAction(actionName: "GetUsers", controllerName: "AppAdministration");
         }
 
         public ActionResult EditUserForm(string userId)
@@ -62,6 +61,8 @@ namespace TransportManagement.Controllers
             data.Add("LastUpdatedBy", User.Claims.Where(t => t.Type == "preferred_username").Select(t => t.Value).FirstOrDefault());
 
             serviceContext.UpdateUserByCondition("ID", model.ID, data);
+
+            return RedirectToAction(actionName: "GetUsers", controllerName: "AppAdministration");
 
             UserModel user = serviceContext.GetUserByCondition("ID", model.ID);
             return View("UserView", user);

@@ -54,7 +54,7 @@ namespace TransportManagement.Helper
 
         public List<TransportOrderModel> GetInvoicesByDate(string fromDate, string toDate)
         {
-            string queryString = "select * from TransportOrderInformation where InvoiceDate >= '" + fromDate + "' and InvoiceDate <= '"+toDate+"' and IsActive=1";
+            string queryString = "select * from TransportOrderInformation where InvoiceDate >= '" + fromDate + "' and InvoiceDate <= '"+toDate+"' and IsActive=1 order by ETag desc";
 
             List<TransportOrderModel> invoices = dbHelper.GetData<TransportOrderModel>(queryString);
 
@@ -150,7 +150,7 @@ namespace TransportManagement.Helper
 
         public List<UserModel> GetUsers()
         {
-            string query = "select * from Users where IsActive=1";
+            string query = "select * from Users where IsActive=1 order by ETag desc";
 
             return dbHelper.GetData<UserModel>(query);
         }

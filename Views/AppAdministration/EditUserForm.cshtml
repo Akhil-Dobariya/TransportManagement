@@ -5,21 +5,6 @@
 
 @{
 }
-<script>
-
-    function AddPermissions(arg) {
-        var abc = ""
-        //Iterating the collection of checkboxes which checked marked
-        $('input[type=checkbox]').each(function () {
-            if (this.checked) {
-                abc = abc + $(this).val() + "|"
-                //assign set value to hidden field
-                $('#Permissions').val(abc);
-            }
-        });
-
-    }
-</script>
 
 <form action="EditUser" method="post">
     <input type="hidden" id="ID" name="ID" value="@Model.ID" />
@@ -80,3 +65,39 @@
         </div>
     </div>
 </form>
+
+<script>
+
+    function AddPermissions(arg) {
+        var abc = ""
+        //Iterating the collection of checkboxes which checked marked
+        $('input[type=checkbox]').each(function () {
+            if (this.checked) {
+                abc = abc + $(this).val() + "|"
+                //assign set value to hidden field
+                $('#Permissions').val(abc);
+            }
+        });
+
+    }
+
+    var admin = $("#IsAdmin");
+    var othersData = $("#CanSeeOthersData");
+    var editUser = $("#CanEditUsers");
+
+    //var admin = document.getElementById("IsAdmin");
+    //var othersData = document.getElementById("CanSeeOthersData");
+    //var editUser = document.getElementById("CanEditUsers");
+
+    if ('@Model.Permissions.Contains("Admin")' == 'True') {
+        admin.prop("checked","checked");
+    }
+
+    if ('@Model.Permissions.Contains("CanSeeOthersData")' == 'True') {
+        othersData.prop("checked", "checked");
+    }
+
+    if ('@Model.Permissions.Contains("CanEditUsers")' == 'True') {
+        editUser.prop("checked", "checked");
+    }
+</script>

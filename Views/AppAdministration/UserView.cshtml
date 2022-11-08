@@ -6,27 +6,7 @@
 @{
 }
 
-<script>
-    var admin = $("#IsAdmin");
-    var othersData = $("#CanSeeOthersData");
-    var editUser = $("#CanEditUsers");
 
-    //var admin = document.getElementById("IsAdmin");
-    //var othersData = document.getElementById("CanSeeOthersData");
-    //var editUser = document.getElementById("CanEditUsers");
-
-    if ('@Model.Permissions.Contains("Admin")' == 'True') {
-        admin.prop("checked","checked");
-    }
-
-    if ('@Model.Permissions.Contains("CanSeeOthersData")' == 'True') {
-        othersData.prop("checked", "checked");
-    }
-
-    if ('@Model.Permissions.Contains("CanEditUsers")' == 'True') {
-        editUser.prop("checked", "checked");
-    }
-</script>
 
 <form action="CreateUser" method="post">
 
@@ -82,3 +62,25 @@
         </div>
     </div>
 </form>
+
+<script type="text/javascript">
+    var admin = $("#IsAdmin");
+    var othersData = $("#CanSeeOthersData");
+    var editUser = $("#CanEditUsers");
+
+    //var admin = document.getElementById("IsAdmin");
+    //var othersData = document.getElementById("CanSeeOthersData");
+    //var editUser = document.getElementById("CanEditUsers");
+
+    if ('@Model.Permissions.Contains("Admin")' == 'True') {
+        admin.prop("checked","checked");
+    }
+
+    if ('@Model.Permissions.Contains("CanSeeOthersData")' == 'True') {
+        othersData.prop("checked", "checked");
+    }
+
+    if ('@Model.Permissions.Contains("CanEditUsers")' == 'True') {
+        editUser.prop("checked", "checked");
+    }
+</script>

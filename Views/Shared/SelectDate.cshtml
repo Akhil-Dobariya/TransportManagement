@@ -2,8 +2,29 @@
     For more information on enabling MVC for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 *@
 
-<div class="row">
+<div class="row" style="margin-top:-10px">
     <form action="/Administration/GetOrderInvoices" method="post">
+        <div class="form-row">
+            <label for="fromDate" style="margin-top:4px;">From:</label>
+            <input type="date" class="form-control col-sm-2" id="fromDate" name="fromDate" style="margin-left:5px;">
+
+            <label for="toDate" style="margin-top:4px;margin-left:20px;">To:</label>
+            <input type="date" class="form-control col-sm-2" id="toDate" name="toDate" style="margin-left:5px;">
+
+            <button type="submit" class="btn btn-primary" id="submit" style="margin-left:30px;">Submit</button>
+        </div>
+    </form>
+</div>
+
+@*<div class="row">
+    <form action="/Administration/GetOrderInvoices" method="post">
+        <div class="form-row">
+            <label for="fromDate">From:</label>
+            <input type="date" class="form-control" id="fromDate" name="fromDate">
+
+            <label for="toDate">To:</label>
+            <input type="date" class="form-control" id="toDate" name="toDate">
+        </div>
 
         <div class="form-row">
             <div class="col-md-2">
@@ -27,4 +48,4 @@
         </div>
 
     </form>
-</div>
+</div>*@

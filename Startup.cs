@@ -41,7 +41,7 @@ namespace TransportManagement
             });
 
             services.AddRazorPages();
-
+            services.AddSession();
             services.AddSingleton<IAppConfiguration, ConfigManager>();
         }
 
@@ -60,7 +60,7 @@ namespace TransportManagement
             }
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();

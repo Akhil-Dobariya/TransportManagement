@@ -8,48 +8,104 @@
 <style>
     .table {
         overflow-x: scroll;
-        position: absolute;
-        top: 180px;
+        position: initial;
+        margin-top: 10px;
         bottom: 0;
+        height: 400px;
+        margin-left: -10px;
     }
 </style>
 
 @if (Model != null && Model.Count() > 0)
 {
-    <div>
-        <table class="table table-responsive table-hover">
-            <thead style="position:sticky; top:0px;" class="thead-dark">
-                <tr>
-                    <th scope="col">InvoiceID</th>
-                    <th scope="col">InvoiceDate</th>
-                    <th scope="col">Sender</th>
-                    <th scope="col">Receiver</th>
-                    <th scope="col">ItemInfo</th>
-                    <th scope="col">TotalPrice</th>
-                    <th scope="col">PaidPrice</th>
-                    <th scope="col">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var invoice in Model)
+<div class="row">
+    <table class="table table-responsive table-hover" style="width:1100px;">
+        <thead style="position:sticky; top:0px;" class="thead-dark">
+            <tr>
+                <th scope="col">InvoiceID</th>
+                <th scope="col">InvoiceDate</th>
+                <th scope="col">Sender</th>
+                <th scope="col">Receiver</th>
+                <th scope="col">ItemInfo</th>
+                <th scope="col">TotalPrice</th>
+                <th scope="col">PaidPrice</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var invoice in Model)
                 {
-                    <tr>
-                        <th scope="row">@invoice.SystemInvoiceId</th>
-                        <td>@invoice.InvoiceDate</td>
-                        <td>@invoice.Sender</td>
-                        <td>@invoice.Receiver</td>
-                        <td>@invoice.ItemInfo</td>
-                        <td>@invoice.TotalPrice</td>
-                        <td>@invoice.PaidPrice</td>
-                        
-                        <td><a href="https://@Context.Request.Host/TransportOrder/ViewInvoice?invoiceID=@invoice.SystemInvoiceId">View</a> 
-                        <a href="https://@Context.Request.Host/TransportOrder/EditInvoice?invoiceID=@invoice.SystemInvoiceId">Edit</a> 
-                        <a href="https://@Context.Request.Host/TransportOrder/DeleteInvoice?invoiceID=@invoice.SystemInvoiceId">Delete</a></td>
-             </tr>
+            <tr>
+                <th scope="row">@invoice.SystemInvoiceId</th>
+                <td>@invoice.InvoiceDate</td>
+                <td>@invoice.Sender</td>
+                <td>@invoice.Receiver</td>
+                <td>@invoice.ItemInfo</td>
+                <td>@invoice.TotalPrice</td>
+                <td>@invoice.PaidPrice</td>
+
+                <td>
+                    <a href="https://@Context.Request.Host/TransportOrder/ViewInvoice?invoiceID=@invoice.SystemInvoiceId">View</a>
+                    <a href="https://@Context.Request.Host/TransportOrder/EditInvoice?invoiceID=@invoice.SystemInvoiceId">Edit</a>
+                    <a href="https://@Context.Request.Host/TransportOrder/DeleteInvoice?invoiceID=@invoice.SystemInvoiceId">Delete</a>
+                </td>
+            </tr>
                 }
-            </tbody>
-        </table>
+        </tbody>
+    </table>
+    <div class="row">
+        <a href="https://@Context.Request.Host/Administration/GetInvoicesByDatenPage?pageToGet=Previous" id="Previous" class="btn btn-primary col-sm-1">Previous</a>
+        <div id="pageNumber" class="col-sm-1 offset-1"></div>
+        <a href="https://@Context.Request.Host/Administration/GetInvoicesByDatenPage?pageToGet=Next" id="Next" class="btn btn-primary col-sm-1 offset-1">Next</a>
+
+
+        <!--<form action="Administration/" method="post">-->
+            @*<a href="Administration/GetOrderInvoices?" class="badge badge-primary col-sm-1">Previous</a>*@
+            <!--<button type="submit" class="btn btn-primary" id="submit">Previous</button>
+        </form>
+
+        <form action="" method="post">-->
+            @*<a href="Administration/GetOrderInvoices?" class="badge badge-primary col-sm-1">Next</a>*@
+            <!--<button type="submit" class="btn btn-primary" id="submit">Next</button>
+        </form>-->
     </div>
-    @Context.Request.Host
+</div>
 }
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        var fromDate = sessionStorage.getItem("fromDate");
+        var toDate = sessionStorage.getItem("toDate");
+        var currentPage = sessionStorage.getItem("PageNo");
+
+        $("#fromDate").val(fromDate);
+        $("#toDate").val(toDate);
+
+        if (currentPage == null) {
+            sessionStorage.setItem("PageNo", "1");
+            $("#pageNumber").text("1");
+        }
+        else {
+            $("#pageNumber").text(currentPage);
+        }
+    });
+
+    $("#Next").on("click", function () {
+        sessionStorage.setItem("PageNo", parseInt($("#pageNumber").text())+1 );
+    });
+
+    $("#Previous").on("click", function () {
+        sessionStorage.setItem("PageNo", parseInt($("#pageNumber").text()) - 1);
+    });
+
+    $("#submit").on("click", function () {
+        var fromDate = $("#fromDate").val();
+        var toDate = $("#toDate").val();
+
+        sessionStorage.setItem("fromDate", fromDate);
+        sessionStorage.setItem("toDate", toDate);
+
+        sessionStorage.setItem("PageNo", "1");
+    });
+</script>
 

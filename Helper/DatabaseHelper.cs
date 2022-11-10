@@ -49,6 +49,39 @@ namespace TransportManagement.Helper
             }
         }
 
+        public List<T> GetDataUsingSP<T>(string fromDate, string toDate, int pageNo, int rowsPerPage)
+        {
+            using (SqlConnection connection = new SqlConnection(DBConnectionString))
+            {
+                SqlCommand command = new SqlCommand("GetInvoicesByDatenPage", connection);
+
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Add("@fromDate", SqlDbType.DateTime).Value = fromDate;
+                command.Parameters.Add("@toDate", SqlDbType.DateTime).Value = toDate;
+                command.Parameters.Add("@pageNo", SqlDbType.Int).Value = pageNo;
+                command.Parameters.Add("@rowsPerPage", SqlDbType.Int).Value = rowsPerPage;
+
+                connection.Open();
+                
+                SqlDataAdapter dataAdapter = new SqlDataAdapter(command);
+                //SqlDataReader reader = command.ExecuteReader();
+                DataTable dt = new DataTable();
+                dataAdapter.Fill(dt);
+
+                List<T> data = new List<T>();
+                JsonSerializerSettings settings = new JsonSerializerSettings();
+                settings.NullValueHandling = NullValueHandling.Ignore;
+
+                foreach (DataRow item in dt.Rows)
+                {
+                    data.AddRange(JsonConvert.DeserializeObject<List<T>>(JsonConvert.SerializeObject(item.Table), settings));
+                    break;
+                }
+
+                return data;
+            }
+        }
+
         public bool UpdateData(string updateQuery)
         {
             using (SqlConnection connection = new SqlConnection(DBConnectionString))

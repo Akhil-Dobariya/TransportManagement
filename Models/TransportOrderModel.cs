@@ -23,6 +23,5 @@ namespace TransportManagement.Models
         public string ReceiverMobileNo { get; set; }
         public string CreateID { get; set; }
         public string InvoiceGeneratedByEmail { get; set; }
-
     }
 }

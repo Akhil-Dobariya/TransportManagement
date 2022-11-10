@@ -52,6 +52,17 @@ namespace TransportManagement.Helper
 
         }
 
+        internal List<TransportOrderModel> GetInvoicesByDatenPage(string fromDate, string toDate, int pageNo, int rowsPerPage)
+        {
+            string query = $"select top {rowsPerPage} * from TransportOrderInformation where SystemInvoiceId in (select top {pageNo*rowsPerPage} systeminvoiceid from TransportOrderInformation where InvoiceDate >= '{fromDate}' and InvoiceDate <= '{toDate}' and IsActive=1 order by SystemInvoiceId desc) order by etag desc";
+            ///string query = $"select top {rowsPerPage} * from (select top {pageNo*rowsPerPage} * from TransportOrderInformation where InvoiceDate >= '{fromDate}' and InvoiceDate <= '{toDate}' and IsActive=1 order by systeminvoiceid desc) order by etag desc";
+
+            //List<TransportOrderModel> invoices = dbHelper.GetData<TransportOrderModel>(query);
+            List<TransportOrderModel> invoices = dbHelper.GetDataUsingSP<TransportOrderModel>(fromDate,toDate,pageNo,rowsPerPage);
+
+            return invoices;
+        }
+
         public List<TransportOrderModel> GetInvoicesByDate(string fromDate, string toDate)
         {
             string queryString = "select * from TransportOrderInformation where InvoiceDate >= '" + fromDate + "' and InvoiceDate <= '"+toDate+"' and IsActive=1 order by ETag desc";
